@@ -174,7 +174,8 @@ public class Support {
         MEGA_SKILLS("MegaSkills"),
         PRECIOUS_STONES("PreciousStones"),
         PLOT_SQUARED("PlotSquared"),
-        FACTIONSX("FactionsX");
+        FACTIONSX("FactionsX"),
+        ORAXEN("Oraxen");
         
         private String name;
         private static Map<SupportedPlugins, Boolean> cachedPluginState = new HashMap<>();
@@ -233,6 +234,9 @@ public class Support {
                         case MCMMO:
                             //CE does not support MCMMO classic. They use different website links in the plugin.yml.
                             cachedPluginState.put(supportedPlugin, website.equalsIgnoreCase("https://www.mcmmo.org"));
+                            break;
+                        case ORAXEN:
+                            cachedPluginState.put(supportedPlugin, authors.contains("Th0rgal"));
                             break;
                         default:
                             cachedPluginState.put(supportedPlugin, true);

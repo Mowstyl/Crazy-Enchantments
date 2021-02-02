@@ -181,6 +181,14 @@
             <version>b11</version>
             <scope>provided</scope>
         </dependency>
+        <!--Oraxen-->
+        <dependency>
+            <groupId>com.github.Th0rgal</groupId>
+            <artifactId>Oraxen</artifactId>
+            <version>master-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>F:/Users/Mowser/MineLibs/oraxen-1.67.0-all.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>

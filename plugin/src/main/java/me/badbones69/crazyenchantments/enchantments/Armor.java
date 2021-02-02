@@ -13,6 +13,7 @@ import me.badbones69.crazyenchantments.multisupport.Support.SupportedPlugins;
 import me.badbones69.crazyenchantments.multisupport.Version;
 import me.badbones69.crazyenchantments.multisupport.anticheats.AACSupport;
 import me.badbones69.crazyenchantments.multisupport.anticheats.NoCheatPlusSupport;
+import me.badbones69.crazyenchantments.multisupport.customitems.OraxenSupport;
 import me.badbones69.crazyenchantments.multisupport.particles.ParticleEffect;
 import me.badbones69.premiumhooks.anticheat.SpartanSupport;
 import org.bukkit.Bukkit;
@@ -551,28 +552,55 @@ public class Armor implements Listener {
             e.setCancelled(true);
         }
     }
+
+    private int getDurability(ItemStack item) {
+        if (Version.isNewer(Version.v1_12_R1)) {
+            if (!SupportedPlugins.ORAXEN.isPluginLoaded()) {
+                if (!item.hasItemMeta() || !(item.getItemMeta() instanceof Damageable)) {
+                    return 0;
+                }
+                ItemMeta itemMeta = item.getItemMeta();
+                Damageable damageableMeta = (Damageable) itemMeta;
+                return damageableMeta.getDamage();
+            }
+            else {
+                OraxenSupport.getDamage(item);
+            }
+        }
+        return item.getDurability();
+    }
+
+    private void setDamage(ItemStack item, int newDamage) {
+        if (Version.isNewer(Version.v1_12_R1)) {
+            if (!SupportedPlugins.ORAXEN.isPluginLoaded()) {
+                if (!item.hasItemMeta() || !(item.getItemMeta() instanceof Damageable)) {
+                    return;
+                }
+                ItemMeta itemMeta = item.getItemMeta();
+                Damageable damageableMeta = (Damageable) itemMeta;
+                item.setItemMeta((ItemMeta) damageableMeta);
+            }
+            else {
+                OraxenSupport.setDamage(item, newDamage);
+            }
+        } else {
+            item.setDurability((short) Math.max(newDamage, 0));
+        }
+    }
     
     private void useHellForge(Player player, ItemStack item) {
         if (ce.hasEnchantment(item, CEnchantments.HELLFORGED)) {
-            int armorDurability = Version.isNewer(Version.v1_12_R1) ? ((Damageable) item.getItemMeta()).getDamage() : item.getDurability();
+            int armorDurability = getDurability(item);
             if (armorDurability > 0 && CEnchantments.HELLFORGED.chanceSuccessful(item)) {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        int finalArmorDirability = armorDurability;
+                        int finalArmorDurability = armorDurability;
                         HellForgedUseEvent event = new HellForgedUseEvent(player, item);
                         Bukkit.getPluginManager().callEvent(event);
                         if (!event.isCancelled()) {
-                            finalArmorDirability -= ce.getLevel(item, CEnchantments.HELLFORGED);
-                            if (Version.isNewer(Version.v1_12_R1)) {
-                                Damageable damageable = (Damageable) item.getItemMeta();
-                                if (damageable != null) {
-                                    damageable.setDamage(Math.max(finalArmorDirability, 0));
-                                    item.setItemMeta((ItemMeta) damageable);
-                                }
-                            } else {
-                                item.setDurability((short) Math.max(finalArmorDirability, 0));
-                            }
+                            finalArmorDurability -= ce.getLevel(item, CEnchantments.HELLFORGED);
+                            setDamage(item, finalArmorDurability);
                         }
                     }
                 }.runTask(ce.getPlugin());
