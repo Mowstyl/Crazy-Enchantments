@@ -57,6 +57,11 @@
             <id>nexus</id>
             <url>https://nexus.badbones69.com/repository/maven-releases/</url>
         </repository>
+        <!-- GitHub Repositories -->
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -186,8 +191,7 @@
             <groupId>com.github.Th0rgal</groupId>
             <artifactId>Oraxen</artifactId>
             <version>master-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>F:/Users/Mowser/MineLibs/oraxen-1.67.0-all.jar</systemPath>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
