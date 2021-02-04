@@ -28,10 +28,6 @@
             <url>http://dl.bintray.com/tastybento/maven-repo</url>
         </repository>
         <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
             <id>janmm14-public</id>
             <url>https://repo.janmm14.de/repository/public/</url>
         </repository>
@@ -190,7 +186,7 @@
         <dependency>
             <groupId>com.github.Th0rgal</groupId>
             <artifactId>Oraxen</artifactId>
-            <version>master-SNAPSHOT</version>
+            <version>master-89163c1beb-1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
